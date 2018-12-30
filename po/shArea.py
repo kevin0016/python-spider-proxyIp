@@ -12,3 +12,4 @@ class shArea:
         self.first = first
         self.lng = lng
         self.lat = lat
+
