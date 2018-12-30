@@ -3,6 +3,7 @@ import pymysql.cursors
 import json
 import po.shArea
 
+
 # mysql init
 def get_cursor():
     connection = pymysql.connect(host='192.168.12.82',
@@ -20,7 +21,7 @@ def execute():
     result = cursor.fetchall()
     for row in result:
         request_body = row["request_body"]
-        print request_body
+        print(request_body)
 
 
 def getShArea(startPage, limit):
@@ -37,7 +38,7 @@ def getCountShArea():
     print(result.__str__())
     for row in result:
         request_body = row["shAreaNum"]
-        print request_body
+        print(request_body)
         return request_body
 
 

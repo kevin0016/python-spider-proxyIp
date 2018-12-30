@@ -1,16 +1,11 @@
 # coding:utf-8
-import urllib2
 import urllib
 import time
 import socket
 import random
-import Proxy_ip
-import UserAgent
 import json
-import Mysql_Config
-import xlwt
-import os
-import pymysql.cursors
+
+from ipchi import Proxy_ip, UserAgent, Mysql_Config
 
 res_list = []
 
@@ -23,50 +18,50 @@ def Visitpage(proxyip, url):
        :return:
     """
     socket.setdefaulttimeout(6)
-    proxy_support = urllib2.ProxyHandler({'http': proxyip})
+    proxy_support = urllib.ProxyHandler({'http': proxyip})
     user_agent = random.choice(UserAgent.user_agents)
-    opener = urllib2.build_opener(proxy_support, urllib2.HTTPHandler)
-    urllib2.install_opener(opener)
+    opener = urllib.build_opener(proxy_support, urllib.HTTPHandler)
+    urllib.install_opener(opener)
     try:
-        request = urllib2.Request(url)
+        request = urllib.Request(url)
         request.add_header('Referer', 'http://www.baidu.com')
         request.add_header('User-Agent', user_agent)
         request.add_header('Content-type', 'application/json;charset=UTF-8')
-        reponse = urllib2.urlopen(request).read()
+        reponse = urllib.urlopen(request).read()
         # print(reponse)
         json_format = check_json_format(reponse)
         if (json_format):
-            print reponse
+            print(reponse)
             return reponse
         time.sleep(random.randint(10, 20))
-    except urllib2.URLError, e:
-        print 'URLError! The bad proxy is %s' % proxyip
-    except urllib2.HTTPError, e:
-        print 'HTTPError! The bad proxy is %s' % proxyip
+    except urllib.URLError as e:
+        print('URLError! The bad proxy is %s' % proxyip)
+    except urllib.HTTPError as e:
+        print('HTTPError! The bad proxy is %s' % proxyip)
     except:
-        print 'Unknown Errors! The bad proxy is %s ' % proxyip
+        print('Unknown Errors! The bad proxy is %s ' % proxyip)
 
 
 def Clicklikebutton(proxyip, url, data):
     socket.setdefaulttimeout(6)
-    proxy_support = urllib2.ProxyHandler({'http': proxyip})
+    proxy_support = urllib.ProxyHandler({'http': proxyip})
     user_agent = random.choice(UserAgent.user_agents)
-    opener = urllib2.build_opener(proxy_support, urllib2.HTTPHandler)
+    opener = urllib.build_opener(proxy_support, urllib.HTTPHandler)
     try:
-        request = urllib2.Request(url)
+        request = urllib.Request(url)
         request.add_header('Referer', 'http://www.baidu.com')
         request.add_header('User-Agent', user_agent)
         request.add_header('Content-type', 'application/json;charset=UTF-8')
         data = urllib.urlencode(data)
         resp = opener.open(request, data)
-        print resp.read()
+        print(resp.read())
         time.sleep(random.randint(60, 180))
-    except urllib2.URLError, e:
-        print 'URLError! The bad proxy is %s' % proxyip
-    except urllib2.HTTPError, e:
-        print 'HTTPError! The bad proxy is %s' % proxyip
+    except urllib.URLError as e:
+        print('URLError! The bad proxy is %s' % proxyip)
+    except urllib.HTTPError as e:
+        print('HTTPError! The bad proxy is %s' % proxyip)
     except:
-        print 'Unknown Errors! The bad proxy is %s ' % proxyip
+        print('Unknown Errors! The bad proxy is %s ' % proxyip)
 
 
 def check_json_format(raw_msg):
@@ -90,7 +85,7 @@ def getData(lat, lon):
     for i in range(len(Proxy_ip.iplist)):
         proxyip = Proxy_ip.iplist[i]
         i += 1
-        print proxyip
+        print(proxyip)
         for m in range(random.randint(2, 4)):
             url = 'http://api.cellocation.com:81/rewifi/?lat=' + lat + '&lon=' + lon + '&n=10'
             print(url)
